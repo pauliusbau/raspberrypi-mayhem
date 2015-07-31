@@ -29,7 +29,11 @@ Now, ensuring that the slave Bluetooth module is powered on, run the following c
 ```
 hcitool scan
 ```
-After a short delay, this should return the addresses of nearby Bluetooth devices. Before Bluetooth devices can communicate, they need to be paired. This can be done by running the following command:
+
+After a short delay, this should return the addresses of nearby Bluetooth devices. 
+![](http://paulius.bautrenas.lt/blog/wp-content/uploads/2015/04/hcitool_scan.png)
+
+Before Bluetooth devices can communicate, they need to be paired. This can be done by running the following command:
 ```
 sudo bluez-simple-agent hci# xx:xx:xx:xx:xx:xx
 ```
@@ -70,12 +74,22 @@ sudo pip install arrow
 
 ####Running the script
 
-Now are are finnaly able to run time synchronication script:
+Now we are finally able to run time synchronization script:
 ```
 sudo python /home/python/flip-dot_synch.py
 ```
 
 ![](http://paulius.bautrenas.lt/blog/wp-content/uploads/2015/04/flip-dot-clock-synch.png)
-What script does is connects to a flip-dot clock, reads its time value and compares it to a system clock
 
+What script does is connects to a flip-dot clock, reads its time value and compares it to a RPI system clock. If time difference is bigger than 20 seconds, script initiates time and date synchronization sequence. Scrip also creates a log file:
+```
+less /home/python/flip-dot_synch.log
+```
+![](http://paulius.bautrenas.lt/blog/wp-content/uploads/2015/04/flipdot_synch_log.png)
 
+####CRON automation
+
+If you are like me you will want to run this script automatically every day. I do it with cron:
+```
+30 2,4 * * * sudo python /home/python/flip-dot_synch.py &
+```
