@@ -21,6 +21,7 @@ f.write(s)
 connected = 0
 update = 0
 
+
 class bcolors: #terminal text color
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
