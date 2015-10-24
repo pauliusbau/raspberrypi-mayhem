@@ -13,6 +13,10 @@ from Adafruit_BMP085 import BMP085
 import RPi.GPIO as GPIO
 
 
+print 'Number of arguments:', len(sys.argv), 'arguments.'
+print 'Argument List:', str(sys.argv)
+
+
 GPIO.setmode(GPIO.BCM) ## uses GPIO numbers NOT pin numbers
 GPIO.setwarnings( False )
 
@@ -25,15 +29,15 @@ temp = 0
 hum = 0
 
 # ---------- various settings ----------
-
-#for reading command line parameters
-for arg in sys.argv:
-	itterarion_type = arg
-	print "Itteration_type: %s" %arg
-
 bmp = BMP085(0x77)
+iteration_type_text = 'TestData'
 iteration_count = 16
-iteration_type = 'TestData'
+
+if len(sys.argv) >= 2:
+	iteration_type = sys.argv[1]
+else:
+	iteration_type = None
+
 
 #smart averaging process witch eliminates outlier data points
 def sanity_test(dataList):
@@ -230,16 +234,16 @@ try:
 				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
 				# VALUES ( %s, NULL,NULL,NULL,NULL, 'CronJob')""",
 				# [sys_date])
-	
-	print "# 15 min iteracija"
-	cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Pressure ,D_Temperature_4, D_Info)
-				VALUES ( %s, %s,%s,%s,%s,%s,%s,%s, %s)""",
-				[sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3,(pressure / 100.0), temperature_4, iteration_type])
+	if (iteration_type != 'm' and iteration_type != 'M'): 
+		print "# 15 min iteracija"
+		cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Pressure ,D_Temperature_4, D_Info)
+					VALUES ( %s, %s,%s,%s,%s,%s,%s,%s, %s)""",
+					[sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3,(pressure / 100.0), temperature_4, iteration_type_text])
 				
+	else:
+		print "# 2 min iteracija"
 	
-	# print "# 2 min iteracija"
-	
-	con.commit()
+	# con.commit()
 
 	GPIO.output(26,False)
 	
