@@ -91,14 +91,14 @@
 				UT = UT + 24;
 			}
 			//convert UT value to local time zone of latitude/longitude
-			localT = UT + 6;
+			localT = UT + 2 + 2; //aditional +2 offset because there is something wrong with hicharts timezone..
 			//convert to Milliseconds
 			return localT*3600*1000;
 			}
 			
-		function dayOfYear() {
+		function dayOfYear(diena) {
 				var yearFirstDay = Math.floor(new Date().setFullYear(new Date().getFullYear(), 0, 1) / 86400000);
-				var today = Math.ceil((new Date().getTime()) / 86400000);
+				var today = Math.ceil((new Date(diena).getTime()) / 86400000);
 				var dayOfYear = today - yearFirstDay;
 				return dayOfYear;
 		}
@@ -121,9 +121,11 @@
 				  	d.setDate(d.getDate()+i);
 				 // console.log("[2] d= " +d);
 				  				
-					var sunrise = d.getTime()+computeSunrise(dayOfYear(), true);
-					var sunset = d.getTime()+computeSunrise(dayOfYear(), false);
-				  
+					var sunrise = d.getTime()+computeSunrise(dayOfYear(d), true);
+					var sunset = d.getTime()+computeSunrise(dayOfYear(d), false);
+					
+					console.log("sunrise: " + new Date(sunrise) + "   sunset: " + new Date(sunset) + "dayOfYear()=	"+dayOfYear(d));
+					
 				options.xAxis.plotBands.push(
 				  {				  
 					from: sunrise,
@@ -159,6 +161,8 @@
 		var data_avg = 1; //ar norim matyti valandu vidurkius, ar "zalius" duomenis
 		var zoom = 0; // prizoominta ar ne?
 		
+
+		
 		$(document).ready(function() {
 			//-- Tooltip formavimas is http://www.tutorialspoint.com/bootstrap/bootstrap_tooltip_plugin.htm
 			$('[data-toggle="tooltip"]').tooltip({
@@ -178,6 +182,7 @@
 					//alignTicks: false,
                     //marginRight: 130,
                     //marginBottom: 25
+					
 					
 					events: {
 						load: function() {
@@ -365,6 +370,7 @@
                     y: 100,
                     borderWidth: 0
                 },
+				
 				//To turn ON/OFF Day Time plot bands
 				plotOptions:{				
 					area:{
@@ -378,6 +384,7 @@
 					}
 				},
 				
+					
 					
 				credits: {
 					enabled: false,
@@ -748,6 +755,7 @@
 					
 					if (zoom == 0){
 						chart = new Highcharts.Chart(options);
+						
 					}
 					else{
 						console.log(" -- data updated, but not redrawn");
@@ -798,11 +806,12 @@
 			$("#from").datepicker("option","maxDate",dateMax );		
 			
 			update_series();				
-		};			
+		};
 		</script>
 	</head>
 <body>
-<script src="http://code.highcharts.com/4.0.4/highcharts.js"></script>
+<script src="http://code.highcharts.com/4.0.4/highcharts.js"></script> 
+<!-- <script src="http://code.highcharts.com/highcharts.js"></script> --> 
 <script src="http://code.highcharts.com/4.0.4/modules/exporting.js"></script>
 
 
