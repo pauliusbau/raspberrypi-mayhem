@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# ------------------------------------------------
+# to run this scrip from Cron use I use these settings:
+# 5,20,35,50  * * * * sudo python /home/python/mysql_dht.py >/dev/null 2>&1
+# 0,2,4,6,8,10,12,14,16,18,22,24,26,28,30,32,34,36,38,40,42,44,46,48,52,54,56,58 * * * * sudo python /home/python/mysql_dht.py m >/dev/null 2>&1
+# ------------------------------------------------
+
+
 import MySQLdb as mdb
 import sys
 import arrow
@@ -30,7 +37,8 @@ hum = 0
 
 # ---------- various settings ----------
 bmp = BMP085(0x77)
-iteration_type_text = 'TestData'
+iteration_type_text = 'MData'
+iteration_type_text_2 = 'MData_2min'
 iteration_count = 16
 
 if len(sys.argv) >= 2:
@@ -242,8 +250,10 @@ try:
 				
 	else:
 		print "# 2 min iteracija"
-	
-	# con.commit()
+		cur.execute("""INSERT INTO duomenys_minutiniai (DM_ActualDate, DM_Temperature_1, DM_Humidity_1 ,DM_Temperature_2, DM_Humidity_2, DM_Temperature_3, DM_Pressure ,DM_Temperature_4, DM_Info)
+					VALUES ( %s, %s,%s,%s,%s,%s,%s,%s, %s)""",
+					[sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3,(pressure / 100.0), temperature_4, iteration_type_text_2])
+	con.commit()
 
 	GPIO.output(26,False)
 	
