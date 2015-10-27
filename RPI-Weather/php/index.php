@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>DHT22</title>
+		<title>RPI WEATHER STATION</title>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		<script  type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
@@ -153,6 +153,8 @@
 		var Temp1 = [];
 		var Temp2 = [];
 		var Temp3 = [];
+		var Temp4 = [];
+		var Prss = [];
 		var Hum1 = [];
 		var Hum2 = [];	
 		
@@ -231,7 +233,7 @@
 					sourceWidth: 1920
 				},
                 title: {
-                    text: 'RPI DHT22 LOG',
+                    text: 'RPI WEATHER STATION',
                     x: -20 //center
                 },
                 subtitle: {
@@ -239,6 +241,10 @@
                     x: -20
                 },
 				
+				lang: {
+					decimalPoint: ',',
+					thousandsSep: ' '
+				},
 				
 						
                 xAxis: {
@@ -343,24 +349,32 @@
 					
                 },
 					{//secondary Y axis
-					//tickInterval:20, //set ticks to 20
+					//tickInterval:10, //set ticks to 20
 					min: 0,
 					max: 100,
+					endOnTick: true,
 					title: {
                         text: 'Humidity, %'
+                    }
+					
+				}
+				,
+					{//third Y axis
+					//tickInterval:100, //set ticks to 20
+					min: 980,
+					max: 1020,
+					endOnTick: true,
+					title: {
+                        text: 'Air Pressure, hPa'
                     }
 					
 				}],
                 tooltip: {
 				
-                   	xDateFormat: '%Y-%m-%d %H:%M',		
+                   	xDateFormat: '%Y-%m-%d %H:%M',	
 					crosshairs: true,
 					shared: true
-					/*
-					formatter: function() {
-                            return this.series.name +
-                            this.x;
-                    }*/
+					
                 },
                 legend: {
                     layout: 'vertical',
@@ -411,7 +425,7 @@
 						//visible: false,
 						type: 'spline',
 						tooltip: {
-							valueSuffix: '%'
+							valueSuffix: ' %'
 						},
 						yAxis: 1,
 						data: Hum2
@@ -434,7 +448,7 @@
 						//color: '#4572A7',
 						type: 'spline',
 						tooltip: {
-							valueSuffix: '%'
+							valueSuffix: ' %'
 						},
 						yAxis: 1,
 						//dashStyle: 'longdash',
@@ -444,11 +458,37 @@
 					{
 						animation: false,
 						type: 'spline',
-						name: 'DS18B20',
+						name: 'Heater Temp.',
 						tooltip: {
 							valueSuffix: '°C'
 						},
 						data: Temp3 //[]
+					},
+					
+					{
+						animation: false,
+						name: 'Air Pressure',
+						//visible: false,
+						//color: '#4572A7',
+						type: 'spline',
+						tooltip: {
+							valueDecimals: 2,
+							valueSuffix: ' hPa'
+						},
+						yAxis: 2,
+						//dashStyle: 'longdash',
+						data: Prss
+					},
+					
+					
+					{
+						animation: false,
+						type: 'spline',
+						name: 'BMP085, °C',
+						tooltip: {
+							valueSuffix: '°C'
+						},
+						data: Temp4 //[]
 					},
 					
 					{
@@ -568,6 +608,8 @@
 			var Temp1 = [];
 			var Temp2 = [];
 			var Temp3 = [];
+			var Temp4 = [];
+			var Prss = [];
 			var Hum1 = [];
 			var Hum2 = [];
 						
@@ -613,6 +655,20 @@
 					}
 					
 					for (i = 0; i < inData.datapoints.length; i++) {
+						var yval = inData.datapoints[i].T4;
+						xval = inData.datapoints[i].at;
+						var x = [xval, yval];
+						Temp4.push(x);
+					}
+					
+					for (i = 0; i < inData.datapoints.length; i++) {
+						var yval = inData.datapoints[i].P;
+						xval = inData.datapoints[i].at;
+						var x = [xval, yval];
+						Prss.push(x);
+					}
+					
+					for (i = 0; i < inData.datapoints.length; i++) {
 						var yval = inData.datapoints[i].H1;
 						xval = inData.datapoints[i].at;
 						var x = [xval, yval];
@@ -632,7 +688,9 @@
 				options.series[1].data = Hum2;	
 				options.series[2].data = Temp1; 	
 				options.series[3].data = Hum1; 	
-				options.series[4].data = Temp3; 						
+				options.series[4].data = Temp3; 
+				options.series[5].data = Prss; 
+				options.series[6].data = Temp4; 
 				
 				if (zoom == 0){
 					chart = new Highcharts.Chart(options);
@@ -674,6 +732,8 @@
 				var Temp1 = [];
 				var Temp2 = [];
 				var Temp3 = [];
+				var Temp4 = [];
+				var Prss = [];
 				var Hum1 = [];
 				var Hum2 = [];		
 				
@@ -732,6 +792,20 @@
 						}
 						
 						for (i = 0; i < inData.datapoints.length; i++) {
+						var yval = inData.datapoints[i].T4;
+						xval = inData.datapoints[i].at;
+						var x = [xval, yval];
+						Temp4.push(x);
+						}
+						
+						for (i = 0; i < inData.datapoints.length; i++) {
+							var yval = inData.datapoints[i].P;
+							xval = inData.datapoints[i].at;
+							var x = [xval, yval];
+							Prss.push(x);
+						}
+						
+						for (i = 0; i < inData.datapoints.length; i++) {
 							var yval = inData.datapoints[i].H1;
 							xval = inData.datapoints[i].at;
 							var x = [xval, yval];
@@ -751,7 +825,9 @@
 					options.series[1].data = Hum2;	
 					options.series[2].data = Temp1; 	
 					options.series[3].data = Hum1; 	
-					options.series[4].data = Temp3; 
+					options.series[4].data = Temp3;
+					options.series[5].data = Prss; 
+					options.series[6].data = Temp4; 					
 					
 					if (zoom == 0){
 						chart = new Highcharts.Chart(options);
@@ -810,7 +886,7 @@
 		</script>
 	</head>
 <body>
-<script src="http://code.highcharts.com/4.0.4/highcharts.js"></script> 
+<script src="http://code.highcharts.com/4.0.4/highcharts.js"></script>  
 <!-- <script src="http://code.highcharts.com/highcharts.js"></script> --> 
 <script src="http://code.highcharts.com/4.0.4/modules/exporting.js"></script>
 
