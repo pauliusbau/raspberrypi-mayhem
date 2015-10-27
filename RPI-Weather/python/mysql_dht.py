@@ -137,7 +137,6 @@ try:
 		humidity_1 = None
 			
 	print "[19] Temperature: %s Humidity: %s" %(temperature_1,humidity_1) 
-	#print "[19] Temperature: %s Humidity: %s" %(round(temperature_1/count_1,1),round(humidity_1/count_1,1))	
 
 	count_2 = 0
 	temperature_2 = []
@@ -178,70 +177,8 @@ try:
 
 	print "Temperature: %.2f C" % temperature_4
 	print "Pressure:    %.2f hPa" % (pressure / 100.0)
-	
-	
-	
-	#print "[13] Temperature: %s Humidity: %s" %(round(temperature_2/count_2,1),round(humidity_2/count_2,1))	
-	
-	#read_dht22(13)
-	#print "[13] Temp: %s Hum: %s" %(temp,hum)
 
-	#cur.execute("INSERT INTO system_info (SI_ActualDate, SI_Type, SI_Info) VALUES (NOW(), 'B', 'Bandymas')")
-
-	#cur.execute("""INSERT INTO system_info (SI_ActualDate, SI_Type, SI_Info) VALUES (%s, 'T', 'Test')""",  sys_date)
-	
-	
-	#cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
-	#			VALUES ( %s, %s,%s,%s,%s, 'CronJob')""",
-	#			[sys_date,round(temperature_1/count_1,1),round(humidity_1/count_1,1),round(temperature_2/count_2,1),round(humidity_2/count_2,1)])
-
-	#print "count_1: %s count_2: %s" %(count_1,count_2)
-
-	
-				
-	# if (oneWire != None):		
-		# if (count_1 > 0 and count_2 > 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Info)
-				# VALUES ( %s, %s,%s,%s,%s,%s, 'MData')""",
-				# [sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3])
-
-		# elif (count_1 == 0 and count_2 > 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Info)
-				# VALUES ( %s, NULL,NULL,%s,%s,%s, 'MData')""",
-				# [sys_date,temperature_2,humidity_2,temperature_3])
-
-		# elif (count_1 > 0 and count_2 == 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Info)
-				# VALUES ( %s,%s,%s,NULL,NULL,%s, 'MData')""",
-				# [sys_date,temperature_1,humidity_1,temperature_3])
-
-		# else :
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Info)
-				# VALUES ( %s, NULL,NULL,NULL,NULL,%s, 'MData')""",
-				# [sys_date,temperature_3])
-	
-	
-	
-	# else:
-		# if (count_1 > 0 and count_2 > 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
-				# VALUES ( %s, %s,%s,%s,%s, 'CronJob')""",
-				# [sys_date,temperature_1,humidity_1,temperature_2,humidity_2])
-
-		# elif (count_1 == 0 and count_2 > 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
-				# VALUES ( %s, NULL,NULL,%s,%s, 'CronJob')""",
-				# [sys_date,temperature_2,humidity_2])
-
-		# elif (count_1 > 0 and count_2 == 0):
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
-				# VALUES ( %s,%s,%s,NULL,NULL, 'CronJob')""",
-				# [sys_date,temperature_1,humidity_1])
-
-		# else :
-				# cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)
-				# VALUES ( %s, NULL,NULL,NULL,NULL, 'CronJob')""",
-				# [sys_date])
+	# -------------------------- DATA SQL INSERT -------------------------------
 	if (iteration_type != 'm' and iteration_type != 'M'): 
 		print "# 15 min iteracija"
 		cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Pressure ,D_Temperature_4, D_Info)
