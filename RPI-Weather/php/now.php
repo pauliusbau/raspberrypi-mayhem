@@ -5,7 +5,7 @@
 		<meta name="description" content="Most up to date RPI Weather Station data">
 		<meta name="keywords" content="HTML,CSS,XML,JavaScript">
 		<meta name="author" content="Paulius Bautrenas">
-		<title>DHT NOW</title>
+		<title>RPI Weather NOW</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
 		<meta http-equiv=”Pragma” content=”no-cache”>
 		<meta http-equiv=”Expires” content=”-1?>
