@@ -22,16 +22,13 @@
 		
 		
 
-		var first_load = 1;
-		
-		
+		var first_load = 1;		
 		
 		function eraseCache(){
 			  console.log("Apsivalymas!");
 			  window.location = window.location.href+'?eraseCache=true';
 			  window.location.reload(true);
 		}
-			
 		
 		
 		function Start() { 
@@ -76,12 +73,10 @@
 							document.getElementById("TH2").innerHTML = T2 +" °C" + " " + H2 +" %";
 							//outside
 							document.getElementById("TH1").innerHTML = T1 +" °C" + " " + H1 +" %";
-							
 							//heater
 							document.getElementById("T3").innerHTML = T3 +" °C";
-							
 							//Air Pressure:
-							document.getElementById("PRSS").innerHTML = P +" hPa" + " [" + T4 +" °C]";
+							document.getElementById("PRSS").innerHTML = P +" hPa" + " (" + T4 +" °C)";
 							
 					});	
 				};
