@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="description" content="Kameru vaizdai">
+		<meta name="description" content="Most up to date RPI Weather Station data">
 		<meta name="keywords" content="HTML,CSS,XML,JavaScript">
 		<meta name="author" content="Paulius Bautrenas">
-		<title>DHT NOW</title>
+		<title>RPI Weather NOW</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
 		<meta http-equiv=”Pragma” content=”no-cache”>
 		<meta http-equiv=”Expires” content=”-1?>
@@ -21,29 +21,21 @@
     <script> 
 		
 		
-		
-		var d = 0;
-		var d_max = 0;
-		var first_load = 1;
-		var kamera=[];
-		
-		var text = '...';
-		var load_indicator=0;
-		
+
+		var first_load = 1;		
 		
 		function eraseCache(){
 			  console.log("Apsivalymas!");
 			  window.location = window.location.href+'?eraseCache=true';
 			  window.location.reload(true);
 		}
-			
 		
 		
 		function Start() { 
 			action = window.setInterval("getData()",1*60*1000);
 			cleanUP = window.setInterval("eraseCache()",60*60*1000);//
 			if(first_load == 1){	
-				getData(); //pirmam uzkrovimui
+				getData(); //first load
 			} else{
 				first_load=0;
 			} 
@@ -64,28 +56,27 @@
 					
 					$.getJSON("data.php?getLast=1", function(obj){
 					
-							var AT= obj.datapoints[0].at;  	//linux timestamp					 
+							var AT= obj.datapoints[0].at;  	//linux timestamp
 							
 							var T1= obj.datapoints[0].T1;  
 							var H1= obj.datapoints[0].H1;
 							var T2= obj.datapoints[0].T2;  
 							var H2= obj.datapoints[0].H2;
-							var T3= obj.datapoints[0].T3;     
+							var T3= obj.datapoints[0].T3; 
+							var P=	obj.datapoints[0].P;
+							var T4= obj.datapoints[0].T4; 
 													
 							var laikas=new Date(AT).FormatDate('%y-%m-%d %H:%M');
 							document.getElementById("laikas").innerHTML = laikas;
-							
-							//document.getElementById("T1").innerHTML = T1 +" Â°C"; 
-							//document.getElementById("T2").innerHTML = T2 +" Â°C";
-							document.getElementById("T3").innerHTML = T3 +" Â°C";
-							
-							//document.getElementById("H1").innerHTML = H1 +" %";
-							//document.getElementById("H2").innerHTML = H2 +" %";
 							
 							//inside
 							document.getElementById("TH2").innerHTML = T2 +" Â°C" + " " + H2 +" %";
 							//outside
 							document.getElementById("TH1").innerHTML = T1 +" Â°C" + " " + H1 +" %";
+							//heater
+							document.getElementById("T3").innerHTML = T3 +" Â°C";
+							//Air Pressure:
+							document.getElementById("PRSS").innerHTML = P +" hPa" + " (" + T4 +" Â°C)";
 							
 					});	
 				};
@@ -111,6 +102,9 @@
 					
 					<h1 id="text" style="color:grey" class="text-muted">Heater:</h1>
 					<h2 id="T3" style="color:white" class="text-muted">T3</h2>
+					
+					<h1 id="text" style="color:grey" class="text-muted">Pressure:</h1>
+					<h2 id="PRSS" style="color:white" class="text-muted">PRSS</h2>
 															
 			</div>					
 		</div>
