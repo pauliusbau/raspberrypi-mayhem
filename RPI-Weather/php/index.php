@@ -361,8 +361,8 @@
 				,
 					{//third Y axis
 					//tickInterval:100, //set ticks to 20
-					min: 980,
-					max: 1020,
+					min: 970,
+					max: 1010,
 					endOnTick: true,
 					title: {
                         text: 'Air Pressure, hPa'
