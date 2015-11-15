@@ -12,4 +12,4 @@ I have build my own RPI weather station using 2 DHT22 and ds18b20 and BMP180 sen
 
 ![](http://paulius.bautrenas.lt/blog/wp-content/uploads/2015/04/flip-dot-clock-synch.png)
 
-My fist attempt to automatically synch my []flip-dot clock](http://github.com/pauliusbau/electronics-farm/tree/master/Flip-Dot%20Clock) with RPI via Bluetooth. More info can be found in my Lithuanian [blog](http://paulius.bautrenas.lt/blog/?p=750)..
+My fist attempt to automatically synch my [flip-dot clock](http://github.com/pauliusbau/electronics-farm/tree/master/Flip-Dot%20Clock) with RPI via Bluetooth. More info can be found in my Lithuanian [blog](http://paulius.bautrenas.lt/blog/?p=750)..
