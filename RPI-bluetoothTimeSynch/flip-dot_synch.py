@@ -1,3 +1,14 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# ------------------------------------------------
+# to run this scrip from Cron I use these settings:
+# 30 2,4 * * * sudo python /home/python/flip-dot_synch.py &
+# ------------------------------------------------
+# 	If you want to "force" update time-date use a python script argument "f":
+# 	sudo python /home/python/flip-dot_synch.py f
+# ------------------------------------------------
+
 import sys
 import arrow
 import re
@@ -20,6 +31,15 @@ f.write(s)
 #status variables
 connected = 0
 update = 0
+
+if len(sys.argv) >= 2:
+	if (sys.argv[1] == 'f' or  sys.argv[1] == 'F' ):
+		force_update = 1
+	else: 
+		force_update = None
+	
+else:
+	force_update = None
 
 
 class bcolors: #terminal text color
@@ -99,7 +119,10 @@ if connected:
 			print (bcolors.WARNING + "Difference is bigger then %s seconds.." + bcolors.ENDC) %max_seconds_diff
 			print "Attempting to update.."
 			update = 1 # time needs to be synchronized
-				
+		elif (force_update == 1):
+			print (bcolors.WARNING + "Force flip-sot clock date/time update!" + bcolors.ENDC)
+			s = str('-- Force flip-sot clock date/time update --' + sys_date + '\n')
+			f.write(s)	
 		else:
 			print " "
 			print bcolors.OKGREEN + "Everything seems OK. Bay!"  + bcolors.ENDC
@@ -119,12 +142,12 @@ if connected:
 	# time_difference = 50
 	
 	#  Going to time/date update sequence:	
-	if update == 1:
+	if (update == 1 or force_update == 1):
 		# --------------------------- DATE update sequence ------------------------- 
-		if time_difference >= 24*60*60: #date needs to be updated
+		if (time_difference >= 24*60*60 or force_update == 1): #date needs to be updated
 			print ("%s Date update sequence [" + bcolors.OKBLUE + "start"  + bcolors.ENDC + "]")  %str(arrow.now().format('HH:mm:ss'))	
 			
-			bluetoothSerial.write('t')	
+			bluetoothSerial.write('t')
 			time.sleep(1)
 			
 			bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
@@ -145,7 +168,7 @@ if connected:
 					
 						
 			bluetoothSerial.write( 'y' )	
-			time.sleep(0.1)			
+			time.sleep(0.1)
 			
 			
 			for x in range (0,10):
