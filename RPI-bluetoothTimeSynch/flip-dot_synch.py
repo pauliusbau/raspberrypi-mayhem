@@ -55,10 +55,10 @@ class bcolors: #terminal text color
 #config variables
 max_seconds_diff = 20
 
-print  bcolors.HEADER + "Flip-Dot Clock auto-config V1.0" + bcolors.ENDC
+print  bcolors.HEADER + "Flip-Dot Clock auto-config V1.1" + bcolors.ENDC
 
 try:
-	bluetoothSerial = serial.Serial( "/dev/rfcomm1", baudrate=9600, timeout=1, stopbits = serial.STOPBITS_ONE, bytesize = serial.EIGHTBITS)
+	bluetoothSerial = serial.Serial( "/dev/rfcomm1", baudrate=9600, timeout=3, stopbits = serial.STOPBITS_ONE, bytesize = serial.EIGHTBITS)
 	bluetoothSerial.setRTS(0) 
 	connected=1
 except serial.SerialException:
@@ -137,7 +137,7 @@ if connected:
 		exit()
 		quit()
 	
-	# Testavimui
+	# 4 testing purposes:
 	# update = 1
 	# time_difference = 50
 	
@@ -239,14 +239,20 @@ if connected:
 					f.write(s)						
 					
 		
-		time.sleep(3)
+		time.sleep(1)
 		bluetoothSerial.write( 'x' )
-		time.sleep(0.1)
+		time.sleep(3)
+		
+		bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
+		bluetoothSerial.flushOutput()#flush output buffer, aborting current output
+		bluetoothSerial.close()
 		f.close()
 		exit()
 		quit()
 			
-	else: #noting needs to be updated, can quit now		
+	else: #nothing needs to be updated, can quit now		
+		bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
+		bluetoothSerial.flushOutput()#flush output buffer, aborting current output
 		f.close()
 		exit()
 		quit()
@@ -254,12 +260,17 @@ if connected:
 else:
 	print bcolors.FAIL +  "I said, I was not connected!" + bcolors.ENDC
 	f.write('I said, I was not connected! \n')	
+	bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
+	bluetoothSerial.flushOutput()#flush output buffer, aborting current output
+	bluetoothSerial.close()
 	f.close()
 	exit()
 	quit()
 
 bluetoothSerial.write( 'x' )
-time.sleep(0.1)
+time.sleep(3)
+bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
+bluetoothSerial.flushOutput()#flush output buffer, aborting current output
 bluetoothSerial.close()
 f.write('Normal exit. \n')	
 f.close()
