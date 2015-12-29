@@ -93,3 +93,10 @@ If you are like me you will want to run this script automatically every day. I d
 ```
 30 2,4 * * * sudo python /home/python/flip-dot_synch.py &
 ```
+
+####FORCE time & date synchronization
+
+If you want to force update time & date on your clock, i. e. to skip all RPI and flip-dot clock time/date difference calculations, you can use a python script argument "f":
+```
+sudo python /home/python/flip-dot_synch.py f
+```
