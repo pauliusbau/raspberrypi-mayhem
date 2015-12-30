@@ -19,6 +19,15 @@ import datetime
 from time import sleep
 from serial import SerialException 
 
+def exit_nicely():
+	bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
+	bluetoothSerial.flushOutput()#flush output buffer, aborting current output
+	bluetoothSerial.close()
+	f.close()
+	exit()
+	quit()
+
+
 os.chdir(os.path.abspath('/home/python/'))
 
 f = open('flip-dot_synch.log','a')
@@ -54,6 +63,7 @@ class bcolors: #terminal text color
 
 #config variables
 max_seconds_diff = 20
+
 
 print  bcolors.HEADER + "Flip-Dot Clock auto-config V1.1" + bcolors.ENDC
 
@@ -132,10 +142,8 @@ if connected:
 		print "Could not read flip-dot clock"
 		f.write("   Could not read flip-dot clock \n")
 		bluetoothSerial.write( 'x' )
-		time.sleep(0.1)
-		f.close()
-		exit()
-		quit()
+		time.sleep(3)
+		exit_nicely()
 	
 	# 4 testing purposes:
 	# update = 1
@@ -241,38 +249,17 @@ if connected:
 		
 		time.sleep(1)
 		bluetoothSerial.write( 'x' )
-		time.sleep(3)
-		
-		bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
-		bluetoothSerial.flushOutput()#flush output buffer, aborting current output
-		bluetoothSerial.close()
-		f.close()
-		exit()
-		quit()
+		time.sleep(3)		
+		exit_nicely()
 			
 	else: #nothing needs to be updated, can quit now		
-		bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
-		bluetoothSerial.flushOutput()#flush output buffer, aborting current output
-		f.close()
-		exit()
-		quit()
+		exit_nicely()
 	
 else:
 	print bcolors.FAIL +  "I said, I was not connected!" + bcolors.ENDC
 	f.write('I said, I was not connected! \n')	
-	bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
-	bluetoothSerial.flushOutput()#flush output buffer, aborting current output
-	bluetoothSerial.close()
-	f.close()
-	exit()
-	quit()
+	exit_nicely()
 
 bluetoothSerial.write( 'x' )
 time.sleep(3)
-bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
-bluetoothSerial.flushOutput()#flush output buffer, aborting current output
-bluetoothSerial.close()
-f.write('Normal exit. \n')	
-f.close()
-exit()
-quit()
+exit_nicely()
