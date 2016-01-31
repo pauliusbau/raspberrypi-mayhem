@@ -1,12 +1,12 @@
 SELECT 
 UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:00'))*1000 as d_actualdate
-,round(avg(d.d_temperature_1),1) as d_temperature_1
-,round(avg(d.d_temperature_2),1) as d_temperature_2
-,round(avg(d.d_humidity_1),1) as d_humidity_1
-,round(avg(d.d_humidity_2),1) as d_humidity_2
-,round(avg(d.d_temperature_3),1) as d_temperature_3
-,round(avg(d.d_pressure),1) as d_pressure
-,round(avg(d.d_temperature_4),1) as d_temperature_4
+,round(avg(d.d_temperature_1),1) as T1
+,round(avg(d.d_temperature_2),1) as T2
+,round(avg(d.d_humidity_1),1) as H1
+,round(avg(d.d_humidity_2),1) as H2
+,round(avg(d.d_temperature_3),1) as T3
+,round(avg(d.d_pressure),1) as P
+,round(avg(d.d_temperature_4),1) as T4
 from warehouse.duomenys d 
 where 
 d.d_actualdate >= "2015-10-27" 

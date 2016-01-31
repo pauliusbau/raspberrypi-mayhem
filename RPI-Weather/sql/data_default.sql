@@ -1,12 +1,12 @@
 SELECT 
 UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:00'))*1000 as d_actualdate
-,round(avg(d.d_temperature_1),1) as d_temperature_1
-,round(avg(d.d_temperature_2),1) as d_temperature_2
-,round(avg(d.d_humidity_1),1) as d_humidity_1
-,round(avg(d.d_humidity_2),1) as d_humidity_2
-,round(avg(d.d_temperature_3),1) as d_temperature_3
-,round(avg(d.d_pressure),1) as d_pressure
-,round(avg(d.d_temperature_4),1) as d_temperature_4
+,round(avg(d.d_temperature_1),1) as T1
+,round(avg(d.d_temperature_2),1) as T2
+,round(avg(d.d_humidity_1),1) as H1
+,round(avg(d.d_humidity_2),1) as H2
+,round(avg(d.d_temperature_3),1) as T3
+,round(avg(d.d_pressure),1) as P
+,round(avg(d.d_temperature_4),1) as T4
 from warehouse.duomenys d 
 where d.d_actualdate >= DATE_SUB(date(NOW()), INTERVAL 1 WEEK) 
 and d.d_actualdate < DATE_SUB(date(NOW()), INTERVAL 1 DAY)
@@ -22,13 +22,13 @@ UNION
 
 SELECT 
 UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:%i'))*1000 as d_actualdate
-,round(d.d_temperature_1,1) as d_temperature_1
-,round(d.d_temperature_2,1) as d_temperature_2
-,round(d.d_humidity_1,1) as d_humidity_1
-,round(d.d_humidity_2,1) as d_humidity_2
-,round(d.d_temperature_3,1) as d_temperature_3
-,round(d.d_pressure,1) as d_pressure
-,round(d.d_temperature_4,1) as d_temperature_4
+,round(d.d_temperature_1,1) as T1
+,round(d.d_temperature_2,1) as T2
+,round(d.d_humidity_1,1) as H1
+,round(d.d_humidity_2,1) as H2
+,round(d.d_temperature_3,1) as T3
+,round(d.d_pressure,1) as P
+,round(d.d_temperature_4,1) as T4
 from warehouse.duomenys d 
 where d.d_actualdate >= DATE_SUB(date(NOW()), INTERVAL 1 DAY)
 and (d.D_Temperature_1 is null or d.D_Temperature_1 between -40 and 60)
