@@ -156,6 +156,8 @@ $data = array('datapoints' => $results);
 print json_encode($data, JSON_NUMERIC_CHECK);
 
 
+// close db connection
+$db = null;
 }
 catch(PDOException $e) {
     echo $e->getMessage();
