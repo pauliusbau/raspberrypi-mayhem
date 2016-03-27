@@ -155,7 +155,7 @@ if connected:
 		if (time_difference >= 24*60*60 or force_update == 1): #date needs to be updated
 			print ("%s Date update sequence [" + bcolors.OKBLUE + "start"  + bcolors.ENDC + "]")  %str(arrow.now().format('HH:mm:ss'))	
 			
-			bluetoothSerial.write('t')
+			bluetoothSerial.write('d') #enter clocks "set date" function 
 			time.sleep(1)
 			
 			bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
@@ -205,7 +205,7 @@ if connected:
 		print ("%s Time update sequence [" + bcolors.OKBLUE + "start"  + bcolors.ENDC + "]")	%str(arrow.now().format('HH:mm:ss'))
 		
 					
-		bluetoothSerial.write('t')	
+		bluetoothSerial.write('t')	#enter clocks "set time" function
 		time.sleep(1)
 		
 		bluetoothSerial.flushInput() #flush input buffer, discarding all its contents
