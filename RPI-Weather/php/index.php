@@ -91,7 +91,7 @@
 				UT = UT + 24;
 			}
 			//convert UT value to local time zone of latitude/longitude
-			localT = UT + 2 + 2; //aditional +2 offset because there is something wrong with hicharts timezone..
+			localT = UT + 3 ;
 			//convert to Milliseconds
 			return localT*3600*1000;
 			}
@@ -163,9 +163,10 @@
 		var data_avg = 1; //ar norim matyti valandu vidurkius, ar "zalius" duomenis
 		var zoom = 0; // prizoominta ar ne?
 		
-
+		
 		
 		$(document).ready(function() {
+				
 			//-- Tooltip formavimas is http://www.tutorialspoint.com/bootstrap/bootstrap_tooltip_plugin.htm
 			$('[data-toggle="tooltip"]').tooltip({
 				placement : 'top'
@@ -174,6 +175,13 @@
 			$('#next').prop('disabled', true); //isjungiam "Next" mygtuka primo uzsikrovimo metu
 			
 			// --- HighCharts options:
+			
+			Highcharts.setOptions({
+				global: {
+					useUTC: false
+				}
+			});
+			
 			options = {
 								
 				chart: {
@@ -225,8 +233,7 @@
 					
 				
                 },
-				
-				
+				  
 				
 				exporting:{
 					//width: 1024,

@@ -59,7 +59,7 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	if (isset($_GET["dateMin"],$_GET["dateMax"])) {		
 		if($_GET["dataAvg"]==1){
 			$sth = $db->prepare("SELECT 
-							UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:00'))*1000 as at
+							UNIX_TIMESTAMP(date_format(d.d_actualdate, '%Y-%m-%d %H:00'))*1000 as at
 							,round(avg(d.d_temperature_1),1) as T1
 							,round(avg(d.d_temperature_2),1) as T2
 							,round(avg(d.d_humidity_1),1) as H1
@@ -83,7 +83,7 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$results=$sth->fetchAll(PDO::FETCH_ASSOC);
 		} else{
 			$sth = $db->prepare("SELECT 
-								UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:%i'))*1000 as at
+								UNIX_TIMESTAMP(date_format(d.d_actualdate, '%Y-%m-%d %H:%i'))*1000 as at
 								,round(d.d_temperature_1,1) as T1
 								,round(d.d_temperature_2,1) as T2
 								,round(d.d_humidity_1,1) as H1
@@ -106,7 +106,7 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		}
 	} else {
 		$sth = $db->prepare("SELECT 
-							UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:00'))*1000 as at
+							UNIX_TIMESTAMP(date_format(d.d_actualdate, '%Y-%m-%d %H:00'))*1000 as at
 							,round(avg(d.d_temperature_1),1) as T1
 							,round(avg(d.d_temperature_2),1) as T2
 							,round(avg(d.d_humidity_1),1) as H1
@@ -128,7 +128,7 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 							UNION 
 
 							SELECT 
-							UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), '%Y-%m-%d %H:%i'))*1000 as at
+							UNIX_TIMESTAMP(date_format(d.d_actualdate, '%Y-%m-%d %H:%i'))*1000 as at
 							,round(d.d_temperature_1,1) as T1
 							,round(d.d_temperature_2,1) as T2
 							,round(d.d_humidity_1,1) as H1
@@ -154,7 +154,6 @@ $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 $data = array('datapoints' => $results);
 print json_encode($data, JSON_NUMERIC_CHECK);
-
 
 // close db connection
 $db = null;
