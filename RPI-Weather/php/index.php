@@ -538,6 +538,7 @@
 				data_avg = 0;	
 				}
 			console.log('data_avg: ' + data_avg);
+			update_series();
 			})
 		})
 			
@@ -611,6 +612,8 @@
 		// --------------------functions for LOADING jSon DATA to chart series---------------------------
 		//load default JSON dataset to chart
 		function getData(){
+			
+			console.log("Funkcija: getData()");
 			
 			var Temp1 = [];
 			var Temp2 = [];
@@ -713,6 +716,8 @@
 				//dateMax=(new Date(new Date().setDate(new Date().getDate()+1))).FormatDate('%y-%m-%d');
 				dateMin=dateStart.FormatDate('%y-%m-%d');
 				dateMax=dateEnd.FormatDate('%y-%m-%d');
+				console.log('dateMin -> getData(): ' + dateMin);
+				console.log('dateMax -> getData(): ' + dateMax);
 				//display default datapicker values (7 days ago - now):
 				$("#from").datepicker("setDate", dateMin);
 				$("#to").datepicker("setDate", dateMax);
@@ -868,7 +873,7 @@
 				
 				dateStart = new Date(dS.setDate(dS.getDate() - 7));	
 				console.log("[1] dateStart: "+dateStart+ " dateEnd: "+ dateEnd);				
-				dateEnd = new Date(dE.setDate(dE.getDate() - 8));					
+				dateEnd = new Date(dE.setDate(dE.getDate() - 7));					
 				console.log("[2] dateStart: "+dateStart+ " dateEnd: "+ dateEnd);
 			} else{
 				dateStart = new Date(dS.setDate(dS.getDate() + 7));	
@@ -908,13 +913,13 @@
 					<input type="text" id="to" name="to" class="form-control input-sm"/>
 					<button type="button" onclick="javascript:update_series();" class="btn btn-primary btn-sm">Update!</button> 
 					<button type="button" onclick="javascript:getData();" class="btn btn-danger btn-sm">Reset!</button> 
-					<a data-toggle="tooltip" data-original-title="Data Averaging!">
+					<a data-toggle="tooltip" data-original-title="Data Averaging?">
 						<input type="checkbox" id="AvgCheck" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="danger">
 					</a>
-					<a data-toggle="tooltip" data-original-title="Week Selection!">
+					<a data-toggle="tooltip" data-original-title="Previous Week">
 						<button type="button" id="prev" onclick="javascript:turn_time(1);" class="btn btn-default btn-sm">Previous</button> 
 					</a>
-					<a data-toggle="tooltip" data-original-title="Week Selection!">
+					<a data-toggle="tooltip" data-original-title="Next Week">
 						<button type="button" id="next" onclick="javascript:turn_time();" class="btn btn-default btn-sm">Next</button> 
 					</a>					
 				</form>
