@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-	<head>
+	<head>	
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
 		<title>RPI WEATHER STATION</title>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -104,7 +105,7 @@
 		}
 		// ------------------ Plot sunrise and sunset plot bands ------------
 		
-		//---------------------- mano plotDayTime -------------------------
+		//---------------------- plotDayTime -------------------------
 		function plotDayTimeCustom(dMin,dMax,dCount){	
 			
 					
@@ -201,9 +202,12 @@
 																
 								// set up the updating of the chart each second
 								setInterval(function(){
+									getLastData();					
+									console.log("getLastData update!");	
+									
 									if(data_type == 0){
 										getData(); //load data from jSon
-										console.log("getData update!");								
+										console.log("getData update!");			
 									} else{
 										update_series(); //load custom data from jSon
 										console.log("update_series update!");
@@ -298,46 +302,12 @@
 						month:"%Y-%m-%d",
 						year:"%Y"
 					},
-					/*
-					dateTimeLabelFormats: {
-						day: "%e. %b",
-						month: "%b '%y",
-						year: "%Y"
-					  },
-					  */
-					//
-					//tickPixelInterval: 200,
-					
-					/*
-					tickPositioner: function () {
-						var positions = [],
-							tick = Math.floor(this.dataMin),
-							increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-						for (tick; tick - increment <= this.dataMax; tick += increment) {
-							positions.push(tick);
-						}
-						return positions;
-					},*/
-					
 					labels: {
 						align: 'center',
 						overflow: 'justify',
 						//align: 'left',
 						step: 1,
 						enabled: true,
-						/*
-						formatter: function () {
-                                        //return Highcharts.dateFormat('%Y-%m-%d %H:%M', Date.parse(this.value));
-										return Highcharts.dateFormat('%Y-%m-%d %H:%M', this.value);
-                        }
-						*/
-						
-						
-						//x: -3,
-						//y: 50,
-						//rotation: 0
-						
 					}
 					
 					
@@ -509,9 +479,10 @@
             };
             
 			
-			
+			// ------- 4 first load -------
 			 			
 			getData(); //joad data from jSon
+			getLastData(); //joad data from jSon
 			
 			
 			
@@ -607,6 +578,39 @@
 		  return count == 0;
 		};
 		
+		// --------------------
+		
+		function getLastData(){
+					
+					console.log("Funkcija: getLastData()");
+					
+					$.getJSON("data.php?getLast=1", function(obj){
+					
+							var AT= obj.datapoints[0].at;  	//linux timestamp
+							
+							var T1= obj.datapoints[0].T1;  
+							var H1= obj.datapoints[0].H1;
+							var T2= obj.datapoints[0].T2;  
+							var H2= obj.datapoints[0].H2;
+							var T3= obj.datapoints[0].T3; 
+							var P=	obj.datapoints[0].P;
+							var T4= obj.datapoints[0].T4; 
+													
+							var laikas=new Date(AT).FormatDate('%y-%m-%d %H:%M');
+							document.getElementById("laikas").innerHTML = laikas;
+							
+							//inside
+							document.getElementById("TH2").innerHTML = T2 +" °C" + " " + H2 +" %";
+							//outside
+							document.getElementById("TH1").innerHTML = T1 +" °C" + " " + H1 +" %";
+							//heater
+							document.getElementById("T3").innerHTML = T3 +" °C";
+							//Air Pressure:
+							document.getElementById("PRSS").innerHTML = P +" hPa" + " (" + T4 +" °C)";
+							
+					});	
+				};
+	
 		
 		
 		// --------------------functions for LOADING jSon DATA to chart series---------------------------
@@ -905,6 +909,34 @@
 
 
 		<div class="container-fluid" style="padding:20px; margin:10px; border:1px solid black; border-radius: 10px;">			
+			<div class="row">	
+					<div class="table-responsive">
+						<table class="table table-reflow">
+						<thead>
+							<tr>
+								<th>
+									
+								</th>
+							  <th><h4>Inside</h4></th>
+							  <th><h4>Outside</h4></th>
+							  <th><h4>Heater</h4></th>
+							  <th><h4>Pressure</h4></th>
+							</tr>
+						</thead>
+						<tbody>
+							<th scope="row">
+								<h5 id="laikas" style="color:black; font-size:100%">Time and Date</h5>
+							</th>
+							<td><h5 id="TH2">TH2</h5></td>
+							<td><h5 id="TH1">TH1</h5></td>
+							<td><h5 id="T3">T3</h5></td>
+							<td><h5 id="PRSS">PRSS</h5></td>
+						  </tbody>
+						</table>
+					</div>
+			</div>				
+						
+			
 			<div class="row">
 				<form class="form-inline">
 					<label for="from">From</label>
