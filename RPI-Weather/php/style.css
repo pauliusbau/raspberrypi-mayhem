@@ -1,13 +1,12 @@
 table, td, th , tr{
 	padding: 0px;
 	white-space: nowrap;
-	border-bottom: none !important; 
-	border: none !important; 
+	/* border-bottom: none !important;  */
+	/* border: none !important;  */
 }
 
 table {
     border-collapse: collapse;
-	border: 1px solid black;
 	white-space: nowrap;
 }
 

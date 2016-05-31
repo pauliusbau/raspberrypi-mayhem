@@ -906,63 +906,64 @@
 <!-- <script src="http://code.highcharts.com/highcharts.js"></script> --> 
 <script src="http://code.highcharts.com/4.0.4/modules/exporting.js"></script>
 
-
-
-		<div class="container-fluid" style="padding:20px; margin:10px; border:1px solid black; border-radius: 10px;">			
-			<div class="row">	
-				<div class="col-xs-12 col-sm-8 col-md-8">
-					<div class="table-responsive">
-						<table class="table table-reflow">
-						<thead>
-							<tr>
-								<th>
-									
-								</th>
-							  <th><h4>Inside</h4></th>
-							  <th><h4>Outside</h4></th>
-							  <th><h4>Heater</h4></th>
-							  <th><h4>Pressure</h4></th>
-							</tr>
-						  </thead>
-						  <tbody>
-							<th scope="row">
-								<h5 id="laikas" style="color:black; font-size:100%">Time and Date</h5>
+<div class="container-fluid" style="padding:0px; margin:10px; border:1px solid black; border-radius: 10px;">	
+	<div class="row">	
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-reflow">
+					<thead>
+						<tr>
+							<th>
+								
 							</th>
-							<td><h5 id="TH2">TH2</h5></td>
-							<td><h5 id="TH1">TH1</h5></td>
-							<td><h5 id="T3">T3</h5></td>
-							<td><h5 id="PRSS">PRSS</h5></td>
-						  </tbody>
-						</table>
-					</div>
-			</div>
-			<div class="col-xs-6 col-md-4"></div>
-			</div>				
-						
-			
-			<div class="row">
-				<form class="form-inline">
-					<label for="from">From</label>
-					<input type="text" id="from" name="from" class="form-control input-sm"/>
-					<label for="to">to</label>
-					<input type="text" id="to" name="to" class="form-control input-sm"/>
-					<button type="button" onclick="javascript:update_series();" class="btn btn-primary btn-sm">Update!</button> 
-					<button type="button" onclick="javascript:getData();" class="btn btn-danger btn-sm">Reset!</button> 
-					<a data-toggle="tooltip" data-original-title="Data Averaging?">
-						<input type="checkbox" id="AvgCheck" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="danger">
-					</a>
-					<a data-toggle="tooltip" data-original-title="Previous Week">
-						<button type="button" id="prev" onclick="javascript:turn_time(1);" class="btn btn-default btn-sm">Previous</button> 
-					</a>
-					<a data-toggle="tooltip" data-original-title="Next Week">
-						<button type="button" id="next" onclick="javascript:turn_time();" class="btn btn-default btn-sm">Next</button> 
-					</a>					
-				</form>
-			</div>
-			<div class="row">	  
-				<div id="container" style="min-width: 400px; height: 600px; margin: 0 auto"></div>
-			</div>
+						  <th><h4>Inside</h4></th>
+						  <th><h4>Outside</h4></th>
+						  <th><h4>Heater</h4></th>
+						  <th><h4>Pressure</h4></th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<th scope="row">
+							<h5 id="laikas" style="color:black; font-size:100%">Time and Date</h5>
+						</th>
+						<td><h5 id="TH2">TH2</h5></td>
+						<td><h5 id="TH1">TH1</h5></td>
+						<td><h5 id="T3">T3</h5></td>
+						<td><h5 id="PRSS">PRSS</h5></td>
+					  </tbody>
+					</table>
+				</div>
 		</div>
+		<div class="col-xs-6 col-md-4"></div>
+	</div>	
+</div>				
+<div class="container-fluid" style="padding:20px; margin:10px; border:1px solid black; border-radius: 10px;">			
+	
+				
+	
+	<div class="row">
+		<form class="form-inline">
+			<label for="from">From</label>
+			<input type="text" id="from" name="from" class="form-control input-sm"/>
+			<label for="to">to</label>
+			<input type="text" id="to" name="to" class="form-control input-sm"/>
+			<button type="button" onclick="javascript:update_series();" class="btn btn-primary btn-sm">Update!</button> 
+			<button type="button" onclick="javascript:getData();" class="btn btn-danger btn-sm">Reset!</button> 
+			<a data-toggle="tooltip" data-original-title="Data Averaging?">
+				<input type="checkbox" id="AvgCheck" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="danger">
+			</a>
+			<a data-toggle="tooltip" data-original-title="Previous Week">
+				<button type="button" id="prev" onclick="javascript:turn_time(1);" class="btn btn-default btn-sm">Previous</button> 
+			</a>
+			<a data-toggle="tooltip" data-original-title="Next Week">
+				<button type="button" id="next" onclick="javascript:turn_time();" class="btn btn-default btn-sm">Next</button> 
+			</a>					
+		</form>
+	</div>
+	<div class="row">	  
+		<div id="container" style="min-width: 400px; height: 600px; margin: 0 auto"></div>
+	</div>
+</div>
 
 </body>
 </html>
