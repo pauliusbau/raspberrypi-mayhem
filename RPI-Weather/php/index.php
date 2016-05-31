@@ -910,6 +910,7 @@
 
 		<div class="container-fluid" style="padding:20px; margin:10px; border:1px solid black; border-radius: 10px;">			
 			<div class="row">	
+				<div class="col-xs-12 col-sm-8 col-md-8">
 					<div class="table-responsive">
 						<table class="table table-reflow">
 						<thead>
@@ -922,8 +923,8 @@
 							  <th><h4>Heater</h4></th>
 							  <th><h4>Pressure</h4></th>
 							</tr>
-						</thead>
-						<tbody>
+						  </thead>
+						  <tbody>
 							<th scope="row">
 								<h5 id="laikas" style="color:black; font-size:100%">Time and Date</h5>
 							</th>
@@ -934,6 +935,8 @@
 						  </tbody>
 						</table>
 					</div>
+			</div>
+			<div class="col-xs-6 col-md-4"></div>
 			</div>				
 						
 			

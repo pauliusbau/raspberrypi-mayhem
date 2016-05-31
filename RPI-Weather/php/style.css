@@ -1,12 +1,32 @@
-table, td, th {
-    border: 1px solid black;
+table, td, th , tr{
+	padding: 0px;
+	white-space: nowrap;
+	border-bottom: none !important; 
+	border: none !important; 
 }
 
 table {
     border-collapse: collapse;
-    width: 100%;
+	border: 1px solid black;
+	white-space: nowrap;
+}
+
+td {
+	white-space:nowrap;
+	padding-top: 0em;
+    padding-bottom: 0em;	
+}
+
+tr{
+	padding-top: 0em;
+    padding-bottom: 0em;
 }
 
 th {
-    height: 50px;
+    text-align: left;
+	vertical-align: bottom;
 }
+
+
+
+
