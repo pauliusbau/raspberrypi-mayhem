@@ -491,10 +491,27 @@
 			
 			
         });
+		
+		// borowed from http://stackoverflow.com/a/4541963
+		var waitForFinalEvent = (function () {
+		  var timers = {};
+		  return function (callback, ms, uniqueId) {
+			if (!uniqueId) {
+			  uniqueId = "Don't call this twice without a uniqueId";
+			}
+			if (timers[uniqueId]) {
+			  clearTimeout (timers[uniqueId]);
+			}
+			timers[uniqueId] = setTimeout(callback, ms);
+		  };
+		})();
+		
 		//-----------detecting windows size -------------
 		$(window).on('resize', function(){
-			console.log("window H: " + $(window).height() + " W:" + $(window).width());
-			table_fitter($(window).width());
+			waitForFinalEvent(function(){ //prevent resize event code for executing to often..
+				console.log("window H: " + $(window).height() + " W:" + $(window).width());
+				table_fitter($(window).width());
+			});
 		});
 		
 		// --- removing unneeded table collumns depending on windows size ----
@@ -507,15 +524,15 @@
 			}
 			
 		   else if (width > 1000 && width <=1080){
-			//	$('td:nth-child(6),th:nth-child(6)').hide();
+				$('td:nth-child(6),th:nth-child(6)').hide();
 				$('td:nth-child(7),th:nth-child(7)').hide();
 			//  $('td:nth-child(8),th:nth-child(8)').hide();
 			}
 			
 			else if (width < 1000){
 				$('td:nth-child(6),th:nth-child(6)').hide();
-				//$('td:nth-child(7),th:nth-child(7)').hide();
-				//$('td:nth-child(8),th:nth-child(8)').hide();
+				$('td:nth-child(7),th:nth-child(7)').hide();
+				$('td:nth-child(8),th:nth-child(8)').hide();
 			}
 			else {
 				$('td:nth-child(6),th:nth-child(6)').show();
