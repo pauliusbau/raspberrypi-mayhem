@@ -927,6 +927,10 @@
 							<th><h4>Outside</h4></th>
 							<th><h4>Heater</h4></th>
 							<th><h4>Pressure</h4></th>
+							<th><h4 style="color:white">(ノಠ益ಠ)ノ彡┻━┻ |</h4></th>
+							<th><h4 style="color:white">┻━┻︵ \(°□°)/ ︵ ┻━┻</h4></th>
+							<th><h4 style="color:white">ლ(ಠ益ಠლ)</h4></th>
+
 						</tr>
 					  </thead>
 					  <tbody>
@@ -937,6 +941,9 @@
 							<td><h5 id="TH1">TH1</h5></td>
 							<td><h5 id="T3">T3</h5></td>
 							<td><h5 id="PRSS">PRSS</h5></td>
+							<th><h5 style="color:white">____________________________</h5></th>
+							<th><h5 style="color:white">____________________________</h5></th>
+							<th><h5 style="color:white">¯\_(ツ)_/¯</h5></th>
 					  </tbody>
 					</table>
 				</div>
