@@ -599,6 +599,15 @@
 							var laikas=new Date(AT).FormatDate('%y-%m-%d %H:%M');
 							document.getElementById("laikas").innerHTML = laikas;
 							
+							//check if vars are "null"
+							if (!T1) T1="-"; else T1=T1;
+							if (!H1) H1="-"; else H1=H1;
+							if (!T2) T2="-"; else T2=T2;
+							if (!H2) H2="-"; else H2=H2;
+							if (!T3) T3="-"; else T3=T3;
+							if (!P) P="-"; else P=P;
+							if (!T4) T4="-"; else T4=T4;
+							
 							//inside
 							document.getElementById("TH2").innerHTML = T2 +" °C" + " " + H2 +" %";
 							//outside
@@ -913,23 +922,21 @@
 					<table class="table table-reflow">
 					<thead>
 						<tr>
-							<th>
-								
-							</th>
-						  <th><h4>Inside</h4></th>
-						  <th><h4>Outside</h4></th>
-						  <th><h4>Heater</h4></th>
-						  <th><h4>Pressure</h4></th>
+							<th></th>
+							<th><h4>Inside</h4></th>
+							<th><h4>Outside</h4></th>
+							<th><h4>Heater</h4></th>
+							<th><h4>Pressure</h4></th>
 						</tr>
 					  </thead>
 					  <tbody>
 						<th scope="row">
-							<h5 id="laikas" style="color:black; font-size:100%">Time and Date</h5>
+							<h4 id="laikas">Time and Date</h4>
 						</th>
-						<td><h5 id="TH2">TH2</h5></td>
-						<td><h5 id="TH1">TH1</h5></td>
-						<td><h5 id="T3">T3</h5></td>
-						<td><h5 id="PRSS">PRSS</h5></td>
+							<td><h5 id="TH2">TH2</h5></td>
+							<td><h5 id="TH1">TH1</h5></td>
+							<td><h5 id="T3">T3</h5></td>
+							<td><h5 id="PRSS">PRSS</h5></td>
 					  </tbody>
 					</table>
 				</div>
