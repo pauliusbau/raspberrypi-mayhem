@@ -167,7 +167,11 @@
 		
 		
 		$(document).ready(function() {
-				
+			
+			//-----------detecting windows size -------------
+			console.log("window H: " + $(window).height() + " W:" + $(window).width());
+			table_fitter($(window).width());
+			
 			//-- Tooltip formavimas is http://www.tutorialspoint.com/bootstrap/bootstrap_tooltip_plugin.htm
 			$('[data-toggle="tooltip"]').tooltip({
 				placement : 'top'
@@ -487,6 +491,39 @@
 			
 			
         });
+		//-----------detecting windows size -------------
+		$(window).on('resize', function(){
+			console.log("window H: " + $(window).height() + " W:" + $(window).width());
+			table_fitter($(window).width());
+		});
+		
+		// --- removing unneeded table collumns depending on windows size ----
+		function table_fitter(width){
+			
+			if (width > 1080 && width <=1180 ){
+			//	$('td:nth-child(6),th:nth-child(6)').hide();
+			//	$('td:nth-child(7),th:nth-child(7)').hide();
+				$('td:nth-child(8),th:nth-child(8)').hide();
+			}
+			
+		   else if (width > 1000 && width <=1080){
+			//	$('td:nth-child(6),th:nth-child(6)').hide();
+				$('td:nth-child(7),th:nth-child(7)').hide();
+			//  $('td:nth-child(8),th:nth-child(8)').hide();
+			}
+			
+			else if (width < 1000){
+				$('td:nth-child(6),th:nth-child(6)').hide();
+				//$('td:nth-child(7),th:nth-child(7)').hide();
+				//$('td:nth-child(8),th:nth-child(8)').hide();
+			}
+			else {
+				$('td:nth-child(6),th:nth-child(6)').show();
+				$('td:nth-child(7),th:nth-child(7)').show();
+				$('td:nth-child(8),th:nth-child(8)').show();	
+			}
+			
+		}
 		
 		//-------fucking Chrome doesnt't support .toLocaleFormat('%Y-%m-%d') :/
 		//-------this function does the same thing as .toLocaleFormat 
@@ -935,7 +972,7 @@
 					  </thead>
 					  <tbody>
 						<th scope="row">
-							<h4 id="laikas">Time and Date</h4>
+							<h5 id="laikas">Time and Date</h5>
 						</th>
 							<td><h5 id="TH2">TH2</h5></td>
 							<td><h5 id="TH1">TH1</h5></td>
@@ -948,7 +985,6 @@
 					</table>
 				</div>
 		</div>
-		<div class="col-xs-6 col-md-4"></div>
 	</div>	
 </div>				
 <div class="container-fluid" style="padding:20px; margin:10px; border:1px solid black; border-radius: 10px;">			
