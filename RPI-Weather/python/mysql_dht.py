@@ -20,9 +20,18 @@ from Adafruit_BMP085 import BMP085
 import RPi.GPIO as GPIO
 
 
-print 'Number of arguments:', len(sys.argv), 'arguments.'
-print 'Argument List:', str(sys.argv)
+# print 'Number of arguments:', len(sys.argv), 'arguments.'
+# print 'Argument List:', str(sys.argv)
 
+class bcolors: #terminal text color
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 GPIO.setmode(GPIO.BCM) ## uses GPIO numbers NOT pin numbers
 GPIO.setwarnings( False )
@@ -75,7 +84,7 @@ def sanity_test(dataList):
 
 
 #sys.stdout = open('mysql_dht.log', 'w')
-def read_dht22 ( PiPin ):
+def read_dht22_raw ( PiPin ):
 	success = 0
 	output = subprocess.check_output(["./Adafruit_DHT", "2302", str(PiPin)])
 	matches = re.search("Temp =\s+([-+]?[0-9.]+)", output)
@@ -101,65 +110,51 @@ def read_dht22 ( PiPin ):
 		#print "fail"
 	return success
 
+def read_dht22(PiPin):
+	count = 0
+	temperature = []
+	humidity = []
+	for x in range (0, iteration_count):
+		if (read_dht22_raw(PiPin)):
+			count = count + 1
+			temperature.append(float(temp))
+			humidity.append(float(hum))
+		else: count = count #print "echem.."
+
+	if (count>0):
+		temperature = sanity_test(temperature)
+		humidity=sanity_test(humidity)
+	else: 
+		count=count
+		temperature = None
+		humidity = None
+			
+	print "[%s] Temperature: %s Humidity: %s" %(PiPin,temperature,humidity) 
+	return temperature,humidity
+	
+	
 try:
 	con = mdb.connect('localhost', 'USER', 'PASSWORD', 'warehouse');
 
 	cur = con.cursor()
 	cur.execute("SELECT VERSION()")
-
 	ver = cur.fetchone()
-
+	
 	sys_date = arrow.now().format('YYYY-MM-DD HH:mm:ss')
 
-	
-	print "Database version : %s " % ver
+	print  bcolors.HEADER + "RPI Weather Station v1.5" + bcolors.ENDC
+	print "Database version : %s" % ver
 	print sys_date
 
 	GPIO.output(26,True) #Turn LED ON, while reading DHT2 sensors
 	
-	count_1 = 0
-	temperature_1 = []
-	humidity_1 = []
-	for x in range (0, iteration_count):
-		if (read_dht22(19)):
-			count_1 = count_1 + 1
-			temperature_1.append(float(temp))
-			humidity_1.append(float(hum))
-			#print "[19] Temp: %s Hum: %s Count: %s" %(temp,hum,count_1)
-		else: count_1 = count_1 #print "echem.."
-
-	if (count_1>0):
-		temperature_1 = sanity_test(temperature_1)
-		humidity_1=sanity_test(humidity_1)
-	else: 
-		count_1=count_1
-		temperature_1 = None
-		humidity_1 = None
-			
-	print "[19] Temperature: %s Humidity: %s" %(temperature_1,humidity_1) 
-
-	count_2 = 0
-	temperature_2 = []
-	humidity_2 = []
-	for x in range (0, iteration_count):
-		if (read_dht22(13)):
-			count_2 = count_2 + 1
-			temperature_2.append(float(temp))
-			humidity_2.append(float(hum))
-			#print "[13] Temp: %s Hum: %s Count: %s" %(temp,hum,count_2)
-		else: count_2 = count_2 #print "echem.."
-
-	if (count_2>0):
-		temperature_2 = sanity_test(temperature_2)
-		humidity_2 = sanity_test(humidity_2)
-	else: 
-		count_2=count_2
-		temperature_2 = None
-		humidity_2 = None
-			
-	print "[13] Temperature: %s Humidity: %s" %(temperature_2,humidity_2)
-
+	# ------------------------------ DHT22 read ------------------------
+	print bcolors.OKBLUE + "DHT22 data:" + bcolors.ENDC
+	temperature_1,humidity_1 = read_dht22(13)
+	temperature_2,humidity_2 = None, None # currently DHT22 conneter to 19 pin is disconneted
+	
 	# ------------------------------ DS18B20 read ------------------------
+	print bcolors.OKBLUE + "DS18B20 data:" + bcolors.ENDC
 	try:
 		oneWire = DS18B20.read_temp()
 		if (oneWire != None):
@@ -171,6 +166,7 @@ try:
 			print "No data from DS18B20 :("
 	
 	# -------------------------- BMP085 read -------------------------------
+	print bcolors.OKBLUE + "BMP085 data:" + bcolors.ENDC
 	temperature_4 = bmp.readTemperature()
 	# Read the current barometric pressure level
 	pressure = bmp.readPressure()
@@ -180,13 +176,13 @@ try:
 
 	# -------------------------- DATA SQL INSERT -------------------------------
 	if (iteration_type != 'm' and iteration_type != 'M'): 
-		print "# 15 min iteracija"
+		print bcolors.WARNING + "# 15 min iteracija" + bcolors.ENDC
 		cur.execute("""INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Temperature_3, D_Pressure ,D_Temperature_4, D_Info)
 					VALUES ( %s, %s,%s,%s,%s,%s,%s,%s, %s)""",
 					[sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3,(pressure / 100.0), temperature_4, iteration_type_text])
 				
 	else:
-		print "# 2 min iteracija"
+		print bcolors.WARNING + "# 2 min iteracija" + bcolors.ENDC
 		cur.execute("""INSERT INTO duomenys_minutiniai (DM_ActualDate, DM_Temperature_1, DM_Humidity_1 ,DM_Temperature_2, DM_Humidity_2, DM_Temperature_3, DM_Pressure ,DM_Temperature_4, DM_Info)
 					VALUES ( %s, %s,%s,%s,%s,%s,%s,%s, %s)""",
 					[sys_date,temperature_1,humidity_1,temperature_2,humidity_2,temperature_3,(pressure / 100.0), temperature_4, iteration_type_text_2])
@@ -207,4 +203,3 @@ finally:
 		con.close()
 
 	GPIO.cleanup()
-	
