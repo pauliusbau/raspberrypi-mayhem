@@ -1,47 +1,43 @@
-# Distributed with a free-will license.
-# Use it any way you want, profit or free, provided it fits in the licenses of its associated works.
-# SI7021
-# This code is designed to work with the SI7021_I2CS I2C Mini Module available from ControlEverything.com.
-# https://www.controleverything.com/content/Humidity?sku=SI7021_I2CS#tabs-0-product_tabset-2
+#Driver based on https://github.com/ControlEverythingCommunity/SI7021/blob/master/Python/SI7021.py
 
 import smbus
 import time
 
 # Get I2C bus
-bus = smbus.SMBus(1)
+try:
+	bus = smbus.SMBus(1)
+except (IOError,IndexError):
+	print "I2C error.."	
 
-# SI7021 address, 0x40(64)
-#		0xF5(245)	Select Relative Humidity NO HOLD master mode
-bus.write_byte(0x40, 0xF5)
+def read_data(address, register):
+	data = []
+	
+	bus.write_byte(address, register)	
+	time.sleep(0.3)
+	data.append(bus.read_byte(address))
+	data.append(bus.read_byte(address))
+	return data
+	
 
-time.sleep(0.3)
+# SI7021 address: 	0x40
+# SI7021 register:	0xF5	Select Relative Humidity NO HOLD master mode
+# SI7021 register:	0xF3	Select temperature NO HOLD master mode
 
-# SI7021 address, 0x40(64)
-# Read data back, 2 bytes, Humidity MSB first
-data0 = bus.read_byte(0x40)
-data1 = bus.read_byte(0x40)
+def read_hum():
+	data = read_data(0x40,0xF5)
+	
+	humidity = ((data[0] * 256 + data[1]) * 125 / 65536.0) - 6
+	# print "Relative Humidity is : %.2f %%" %humidity
+	return humidity
 
-# Convert the data
-humidity = ((data0 * 256 + data1) * 125 / 65536.0) - 6
+def read_temp():
+	data = read_data(0x40,0xF3)
+	
+	temperature = ((data[0] * 256 + data[1]) * 175.72 / 65536.0) - 46.85
+	# print "Temperature is : %.2f C" %temperature
+	return temperature
 
-time.sleep(0.3)
-
-# SI7021 address, 0x40(64)
-#		0xF3(243)	Select temperature NO HOLD master mode
-bus.write_byte(0x40, 0xF3)
-
-time.sleep(0.3)
-
-# SI7021 address, 0x40(64)
-# Read data back, 2 bytes, Temperature MSB first
-data0 = bus.read_byte(0x40)
-data1 = bus.read_byte(0x40)
-
-# Convert the data
-cTemp = ((data0 * 256 + data1) * 175.72 / 65536.0) - 46.85
-fTemp = cTemp * 1.8 + 32
-
-# Output data to screen
-print "Relative Humidity is : %.2f %%" %humidity
-print "Temperature in Celsius is : %.2f C" %cTemp
-print "Temperature in Fahrenheit is : %.2f F" %fTemp
+# read_hum()
+# time.sleep(0.3)
+# read_temp()
+# time.sleep(0.3)

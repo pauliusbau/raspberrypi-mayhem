@@ -15,10 +15,11 @@ import re
 import subprocess
 import os
 import numpy as np
+
 import DS18B20
 from Adafruit_BMP085 import BMP085
 import RPi.GPIO as GPIO
-
+import SI7021
 
 # print 'Number of arguments:', len(sys.argv), 'arguments.'
 # print 'Argument List:', str(sys.argv)
@@ -168,12 +169,20 @@ try:
 	# -------------------------- BMP085 read -------------------------------
 	print bcolors.OKBLUE + "BMP085 data:" + bcolors.ENDC
 	temperature_4 = bmp.readTemperature()
-	# Read the current barometric pressure level
 	pressure = bmp.readPressure()
 
 	print "Temperature: %.2f C" % temperature_4
 	print "Pressure:    %.2f hPa" % (pressure / 100.0)
-
+	
+	
+	# -------------------------- SI7021 read -------------------------------
+	print bcolors.OKBLUE + "SI7021 data:" + bcolors.ENDC
+	temperature_2 = round(SI7021.read_temp(),2)
+	humidity_2 =  round(SI7021.read_hum(),2)
+	
+	print "Temperature is : %.2f C" %temperature_2
+	print "Relative Humidity is : %.2f %%" %humidity_2	
+	
 	# -------------------------- DATA SQL INSERT -------------------------------
 	if (iteration_type != 'm' and iteration_type != 'M'): 
 		print bcolors.WARNING + "# 15 min iteracija" + bcolors.ENDC
